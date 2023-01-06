@@ -1,0 +1,53 @@
+
+
+
+.font-medium {
+    font-size: 1.2rem;
+}
+
+
+.star-color {
+    color:#E8BD0D;
+}
+
+
+.margin-y {
+    margin-top: 6rem;
+    margin-bottom: 3rem;
+}
+
+.margin-y2 {
+    margin-top: 6rem;
+    margin-bottom: 0.5rem;
+}
+
+.edit-color {
+    color: grey;
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.delete-color {
+    color:red;
+}
+
+
+.curser-pointer {
+    cursor: pointer;
+}
+
+
+.select-width {
+    width: 20%;
+}
+
+.btn.active {
+    background-color: red;
+    border: red
+  }
+
+
+  [data-testid="confirm-dialog-message"] {
+    font-size: 14px;
+    color: blue;
+  }
