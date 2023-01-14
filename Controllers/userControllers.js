@@ -304,7 +304,7 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 
     const users = await User.find({
         firstname: { $regex: searchResult, $options: 'i' }
-    }).select('_id firstname lastname email')
+    }).select('_id firstname lastname email isAdmin')
         .skip((page - 1) * numItems).limit(numItems)
 
 
@@ -388,5 +388,46 @@ export const updateUser = asyncHandler(async (req, res) => {
     } else {
         res.status(500);
         throw new Error(`User not found for update`)
+    }
+})
+
+
+
+
+
+
+/******************************************************
+ * @SET_ADMIN
+ * @PRIVATE
+ * @REQUEST_TYPE PUT
+ * @route "/api/user/setAdmin/:userId"
+ * @description Make Or Remove Admin
+ * @parameters userId from params
+ * @returns Success Message
+ ******************************************************/
+
+
+
+export const setAdmin = asyncHandler(async (req, res) => {
+
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId);
+
+    if (user) {
+        user.isAdmin = !user.isAdmin;
+
+        const updatedUser = await user.save();
+
+        if (updatedUser) {
+            res.status(200);
+            res.json({ success: true })
+        } else {
+            res.status(401);
+            throw new Error('User could not Update')
+        }
+    } else {
+        res.status(401);
+        throw new Error('User not Found')
     }
 })

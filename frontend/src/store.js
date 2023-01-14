@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { userRegisterReducer, userLoginReducer, userWatchlistReducer, userDeleteReducer, getWatchedListReducer, listUsersReducer, updateUserReducer } from './Reducers/userReducers';
+import { userRegisterReducer, userLoginReducer, userWatchlistReducer, userDeleteReducer, getWatchedListReducer, listUsersReducer, updateUserReducer, setAdminReducer } from './Reducers/userReducers';
 import { addMovieReducer, getAllMoviesReducer, editMovieReducer, getMovieReducer, deleteMovieReducer } from './Reducers/movieReducers';
 import { createReviewReducer, getReviewsByMovieReducer, deleteReviewReducer, updateReviewReducer, getReviewReducer, getReviewsByUserReducer } from './Reducers/reviewReducers';
 
@@ -27,7 +27,8 @@ const reducer = combineReducers({
     getReviewsByUser: getReviewsByUserReducer,
     getWatchedList: getWatchedListReducer,
     listUsers: listUsersReducer,
-    updateUser: updateUserReducer
+    updateUser: updateUserReducer,
+    setAdmin: setAdminReducer
 })
 
 

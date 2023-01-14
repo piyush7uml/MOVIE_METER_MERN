@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, InputGroup, Form, Button, Table, Modal } from 'react-bootstrap';
-import { listUsersAction, userDeleteAction } from '../Actions/userActions';
+import { listUsersAction, userDeleteAction, setAdminAction } from '../Actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom'
-import { USER_DELETE_RESET } from '../Constants/userContstants';
+import { USER_DELETE_RESET, SET_ADMIN_RESET } from '../Constants/userContstants';
 import Loader from '../components/Loader';
 import Message from "../components/Message"
 
@@ -49,6 +49,12 @@ const AdminUsersScreen = () => {
     const userDelete = useSelector(state => state.userDelete)
     const { loading: deleteLoading, error: deleteError, success: deleteSuccess } = userDelete
 
+    //GETTING SET ADMIN DATA FROM STORE
+
+    const setAdmin = useSelector(state => state.setAdmin)
+
+    const { loading: setAdminLoading, error: setAdminError, success: setAdminSuccess } = setAdmin
+
 
 
 
@@ -74,7 +80,15 @@ const AdminUsersScreen = () => {
             dispatch(listUsersAction(page, searchResult))
         }
 
-    }, [deleteSuccess])
+        if (setAdminSuccess) {
+            dispatch({
+                type: SET_ADMIN_RESET
+            })
+
+            dispatch(listUsersAction(page, searchResult))
+        }
+
+    }, [deleteSuccess, setAdminSuccess])
 
 
 
@@ -114,6 +128,12 @@ const AdminUsersScreen = () => {
         dispatch(userDeleteAction(userId))
         handleClose()
 
+    }
+
+
+    const setAdminHandler = (userId) => {
+
+        dispatch(setAdminAction(userId))
     }
 
 
@@ -183,6 +203,9 @@ const AdminUsersScreen = () => {
                     {deleteLoading && <Loader />}
                     {deleteError && <Message>{deleteError}</Message>}
 
+                    {setAdminLoading && <Loader />}
+                    {setAdminError && <Message>{setAdminError}</Message>}
+
                     {users && users.length > 0 ? (
 
                         <>
@@ -193,6 +216,7 @@ const AdminUsersScreen = () => {
                                         <th>#</th>
                                         <th >Name</th>
                                         <th className="text-center">Email</th>
+                                        <th className="text-center">Admin</th>
                                         <th className="text-center">Delete User</th>
                                     </tr>
                                 </thead>
@@ -208,6 +232,30 @@ const AdminUsersScreen = () => {
                                             <td className="text-center">
 
                                                 {user.email}
+
+                                            </td>
+
+                                            <td className="text-center">
+
+                                                {userInfo && (user._id !== userInfo._id) && (
+                                                    <>
+                                                        {user.isAdmin ? (
+                                                            <Button
+                                                                onClick={() => setAdminHandler(user._id)}
+                                                                variant="danger" size='sm'>
+                                                                Remove from Admin
+                                                            </Button>
+                                                        ) : (
+                                                                <Button
+                                                                    onClick={() => setAdminHandler(user._id)}
+                                                                    variant="primary" size='sm'>
+                                                                    Make an Admin
+                                                                </Button>
+                                                            )}
+                                                    </>
+                                                )}
+
+
 
                                             </td>
                                             <td className="text-center">

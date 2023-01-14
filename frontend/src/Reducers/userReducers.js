@@ -5,7 +5,8 @@ import {
     USER_DELETE_LOADING, USER_DELETE_SUCCESS, USER_DELETE_FAIL, USER_DELETE_RESET,
     USER_GET_WATCHLIST_LOADING, USER_GET_WATCHLIST_SUCCESS, USER_GET_WATCHLIST_FAIL, USER_GET_WATCHLIST_RESET,
     USERS_LIST_LOADING, USERS_LIST_SUCCESS, USERS_LIST_FAIL, USERS_LIST_RESET,
-    USER_UPDATE_LOADING, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_RESET
+    USER_UPDATE_LOADING, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_RESET,
+    SET_ADMIN_LOADING, SET_ADMIN_SUCCESS, SET_ADMIN_FAIL, SET_ADMIN_RESET
 } from '../Constants/userContstants';
 
 
@@ -181,6 +182,29 @@ export const updateUserReducer = (state = {}, action) => {
 
         default:
             return state;
+    }
+
+}
+
+
+//SET ADMIN REDUCER
+
+export const setAdminReducer = (state = {}, action) => {
+
+    switch (action.type) {
+        case SET_ADMIN_LOADING:
+            return { loading: true }
+
+        case SET_ADMIN_SUCCESS:
+            return { loading: false, success: true }
+
+        case SET_ADMIN_FAIL:
+            return { loading: false, error: action.payload }
+
+        case SET_ADMIN_RESET:
+            return {}
+        default:
+            return state
     }
 
 }

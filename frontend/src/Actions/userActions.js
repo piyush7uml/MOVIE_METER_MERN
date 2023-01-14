@@ -7,7 +7,8 @@ import {
     USER_DELETE_LOADING, USER_DELETE_SUCCESS, USER_DELETE_FAIL,
     USER_GET_WATCHLIST_LOADING, USER_GET_WATCHLIST_SUCCESS, USER_GET_WATCHLIST_FAIL,
     USERS_LIST_LOADING, USERS_LIST_SUCCESS, USERS_LIST_FAIL,
-    USER_UPDATE_LOADING, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL
+    USER_UPDATE_LOADING, USER_UPDATE_SUCCESS, USER_UPDATE_FAIL,
+    SET_ADMIN_LOADING, SET_ADMIN_SUCCESS, SET_ADMIN_FAIL
 } from '../Constants/userContstants';
 import { CREATE_REVIEW_RESET } from '../Constants/reviewConstants';
 
@@ -328,6 +329,44 @@ export const userUpdateAction = (userData) => async (dispatch, getState) => {
             type: USER_UPDATE_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
 
+        })
+    }
+
+}
+
+
+
+// SET ADMIN BY ADMIN
+
+export const setAdminAction = (userId) => async (dispatch, getState) => {
+
+    try {
+
+        dispatch({
+            type: SET_ADMIN_LOADING
+        })
+
+        const { userInfo: { token } } = getState().userLogin
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await axios.put(`/api/user/setAdmin/${userId}`, {}, config)
+
+        dispatch({
+            type: SET_ADMIN_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+
+        dispatch({
+            type: SET_ADMIN_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 

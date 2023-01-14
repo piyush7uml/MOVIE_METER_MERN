@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, setWatchedList, deleteUser, getWatchedList, getAllUsers, updateUser } from '../Controllers/userControllers.js';
+import { registerUser, loginUser, setWatchedList, deleteUser, getWatchedList, getAllUsers, updateUser, setAdmin } from '../Controllers/userControllers.js';
 import { auth, isAdmin } from '../utils/routesProtection.js'
 
 const router = express.Router();
@@ -25,6 +25,9 @@ router.get("/getUsers", auth, isAdmin, getAllUsers)
 
 // UPDATE USER
 router.put("/update", auth, updateUser)
+
+// SET ADMIN BY ADMIN
+router.put("/setAdmin/:userId", auth, isAdmin, setAdmin)
 
 
 
